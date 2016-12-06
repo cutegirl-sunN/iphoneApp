@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html ng-app="contain">
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="css/index.css" />
+	</head>
+	<script src='js/angular.js'></script>
+	<script src='js/jquery.js'></script>
+	<script src='js/index.js'></script>
+
+	<body ng-controller="mainCtrl">
+		<div class="box">
+			<div id="left">
+				<div class="left-top-view">
+					<div class="app-switcher">
+						<div class="icloud"></div>
+						<span>提醒事项</span>
+						<span class='jiantou'></span>
+					</div>
+					<div class="add" ng-click="addList();save2local()">
+						<div class="img"></div>
+					</div>
+				</div>
+				<div class="left-middle-view">
+					<div class="plan">
+						<div class="sc-outline">
+							<div class="scheduled-icon"></div>
+							<div class="title">已计划</div>
+						</div>
+
+					</div>
+					<div my-ul>
+						<li class='li' ng-click='cu-$index' ng-class='{active:cu===$index}' ng-repeat='v in list track by $index'>
+							<div class="sc-outline">
+								<div class="collection-color-icon {{v.theme}}"></div>
+								<div class="title">
+									<input type="text" ng-model='v.name' ng-keyup='save2local()' />
+								</div>
+								<div class="share-icon-off"></div>
+								<div class="row-divider-bottom"></div>
+							</div>
+						</li>
+					</div>
+				</div>
+			</div>
+			<div id="right">
+				<div class="sousuo">
+					<div class="search-bar">
+						<div class="clean">
+							<div class="search-icon"></div>
+							<div class="padding">
+								<div class="hint">搜索所有提醒</div>
+								<input type="text" class="field" />
+							</div>
+						</div>
+					</div>
+					<div class="reminders">
+						<div class="xiala">
+							<label class='ellipsis'>孙娜</label>
+							<div class="chevron"></div>
+							<div class="xialabox">
+								<div class="jiantou"></div>
+								<div class="content">
+									<a href="">iCloud</a>
+									<a href="">注销</a>
+								</div>
+							</div>
+						</div>
+						<div class="sc1843">
+							<div class="help-icon"></div>
+						</div>
+					</div>
+
+				</div>
+				<div class="right-midddle-view">
+					<div class="lis">
+						<div class="sc3066 {{list[cu].theme}}">{{list[cu].name}}</div>
+						<div my-button></div>
+						<!--<div class="chose">选项-->
+						<!--<label for="" class="sc3123-label"></label>-->
+						<!--</div>-->
+						<div class="chosebox">
+							<div class="contant">
+								<ul class="act">
+									<li class="custom-size">
+										<div class="border"></div>
+										<div class="pad ">
+											<input type="text" class='{{list[cu].theme}}' ng-model="list[cu].name" ng-keyup="save2local()" />
+										</div>
+									</li>
+									<li class="listtit">列表颜色</li>
+									<li class="colorlist">
+										<div class="list one {{i.color}} {{i}}" ng-click="list[cu].theme=i;save2local()" ng-repeat='i in colorlist'>
+											<div class="color-cir {{i.color}}"></div>
+										</div>
+									</li>
+									<div class="bottom">
+										<div class="delete" ng-click="delete()">删除</div>
+										<div class="wc">
+											<div class="qx" ng-click="cancel()">取消</div>
+											<div class="line"><span></span></div>
+											<div class="wan" ng-click="cancel();save2local()">完成</div>
+										</div>
+									</div>
+									<div class="xian"></div>
+								</ul>
+							</div>
+							<div class="sanjiao"></div>
+						</div>
+					</div>
+					<div class="right-contain">
+						<div class="sc3094">
+							<div class="row-divider-top"></div>
+							<div class="dian" ng-click="dian();save2local()"></div>
+							<div class="label-container" ng-dbclick="clear();save2local()">已完成：{{count()}}项</div>
+							<div class='clear {{list[cu].theme}}'  ng-click='clear();save2local()'>清除已完成事项</div>
+						</div>
+						<div class="wclist" ng-if="v.state===1"  ng-repeat="v in list[cu].todos">
+							<div class="big-yuan {{list[cu].theme}}" ng-click="v.state=0;save2local()"> </div>
+							<input type="text" value='{{v.name}}' id="shuru"/>
+							<div class='mation {{list[cu].theme}}'>详细信息</div>
+						</div>
+						<!--未完成-->
+						<div class="sc3095">
+							<div class="row-divider-top"></div>
+							<div class="dian2" ng-click="dian2();save2local()"></div>
+							<div class="label-container">未完成:{{count()}}项</div>
+							<div class="nr" ng-if='v.state===0' ng-repeat='v in list[cu].todos'>
+								<div class="background {{list[cu].theme}}"></div>
+								<div class="row-divider-top {{list[cu].theme}}"></div>
+								<div class="row-divider-bottom {{list[cu].theme}}"></div>
+								<div class="text1">
+									<div class="unchecked {{list[cu].theme}}" ng-click="v.state=1;save2local()"></div>
+									<input type="text" id='inpu' value='{{v.name}}' />
+									<div class="mation {{list[cu].theme}}">详细信息</div>
+								</div>
+							</div>
+						</div>
+						<!---->
+						<div class="sc-list-view">
+							<div class="item-view">
+								<div class="background {{list[cu].theme}}"></div>
+								<div class="row-divider-top {{list[cu].theme}}"></div>
+								<div class="row-divider-bottom {{list[cu].theme}}"></div>
+								<div class="text1">
+									<div class="unchecked {{list[cu].theme}}" ng-click="list[cu].todos.push({name:value,state:0});value='';save2local()"></div>
+									<input type="text" id='Inpu' ng-model="value" value='' />
+								</div>
+							</div>
+							<div block></div>
+						</div>
+					</div>
+
+					<!--<div class="new">
+						<div class="row-divider-top"></div>
+						<div class="row-divider-bottom"></div>
+						<label for="" class='text'>新项目...</label>
+					</div>-->
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
